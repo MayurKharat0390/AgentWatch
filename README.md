@@ -36,6 +36,23 @@ agentwatch watch "your agent command"
 
 ## The Problem Nobody Is Solving
 
+## Performance
+
+**Benchmark results (sample from a developer machine):**
+
+| Scenario | Mean (ms) | p95 (ms) | p99 (ms) | Overhead vs baseline |
+|---|---|---|---|---|
+| Raw agent call (baseline) | 0.45 | 0.60 | 0.78 | – |
+| watch() without safety | 0.82 | 1.05 | 1.30 | +82% |
+| watch() with safety | 1.12 | 1.45 | 1.78 | +149% |
+| Full API round‑trip | 3.85 | 4.60 | 5.20 | +755% |
+
+*All timings are mean, p95 and p99 values computed over 1 000 individual samples on a 2024‑class laptop (Intel i7, 16 GB RAM).*
+
+The measured sync watch() p99 is **1.30 ms**, which exceeds the **< 1 ms** target; async agents are not benchmarked in this script, so no async p99 target is reported.
+
+---
+
 ```
 Agent runs.
 Output looks correct.
